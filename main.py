@@ -36,3 +36,39 @@ def parse_arguments():
     parser.add_argument('--output', type=str, default="output.png", help='output file')
     parser.add_argument('--n_images', type=int, default=10, help='number of images to generate')
     return parser.parse_args()
+
+# Train GAN Model
+def train_gan(args):
+    if args.model not in gan_dict:
+        print("Invalid model")
+        return
+    
+    gan_class = gan_dict[args.model]
+    x_train = commonGan.load_data()
+    
+    generator = gan_class.build_generator()
+    print(generator.summary())
+    
+    discriminator = gan_class.build_discriminator()
+    discriminator.compile(optimizer=tf.keras.optimizers.Adam(args.learning_rate), 
+                          loss="binary_crossentropy", 
+                          metrics=["accuracy"])
+    discriminator.trainable = False
+    
+    gan = gan_class.build_gan(discriminator, generator, args.latent_dim)
+    gan.compile(optimizer=tf.keras.optimizers.Adam(args.learning_rate), 
+                loss="binary_crossentropy")
+    
+    gan_class.train(x_train, generator, discriminator, gan, 
+                    args.epochs, args.batch_size, args.latent_dim)
+    
+    commonGan.generate_images(generator, args.n_images, args.latent_dim)
+
+# Main function
+def main():
+    check_gpus()
+    args = parse_arguments()
+    train_gan(args)
+
+if __name__ == '__main__':
+    main()
