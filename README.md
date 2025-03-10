@@ -50,8 +50,20 @@ Sortie du modèle avec l'embarquement temporel sinusoïdal à chaque étape de t
 On peut noter que la perte est plus faible dans le modèle avec l'embarquement temporel sinusoïdal, les bords sont mieux définis et nous perdons moins d'informations.
 
 4. Inférence
+   
 ![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)![image](https://github.com/user-attachments/assets/7da0e98a-a062-410e-a3df-19e024380b3f)
-La première image est la sortie du moèle minimal et la deuxième la sortie du modèle sinusoidal. 
 
+La première image est la sortie du modèle minimal et la deuxième la sortie du modèle sinusoidal, bien que les deux images soient très floues on voit que l'inférence du modèle minimal est meilleure que celle du sinusoidal.
 
-Sortie du modèle minimal à chaque étape de temps
+5. Training
+   
+![image](https://github.com/user-attachments/assets/4dfbf432-1665-4e57-8eee-0eb858cdd3d2)![image](https://github.com/user-attachments/assets/59db3187-ffce-4717-b4b0-5cec0767b519)
+Là encore, la première image est la sortie du modèle minimal et la deuxième la sortie du modèle sinusoidal. On remarque également une netteté plus importante à la sortie du modèle sinusoidale.
+
+6. Discussion
+   
+What happens if we change the noise schedule?
+L'ajout du bruit ou sa suppression seront pertubés si l'on change le noise schedule. Un noise schedule mal réglé peut entraîner des images floues ou des résultats de mauvaise qualité. Par exemple, un bruit plus fort aux premiers pas rendra la tâche du modèle plus difficile, car l'information originale sera rapidement détruite. 
+
+How do diffusion models compare to GANs? 
+Ces deux modèles génèrent des images. Cependant, les GANs apprennent avec à la fois un générateur et un discriminateur, ce qui permet de produire des images réalistes plus rapidement que les diffusion models. Les modèles de diffusion ajoutent du bruit progressif et apprennent à l’inverser comme nous l'avons vu dans ce tp, ce qui prend plus de temps mais donne souvent des résultats plus nets. Les modèles de diffusion sont plus fiables pour capturer la diversité des données, tandis que les GANs sont plus rapides.
