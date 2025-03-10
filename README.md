@@ -50,8 +50,8 @@ Sortie du modèle avec l'embarquement temporel sinusoïdal à chaque étape de t
 On peut noter que la perte est plus faible dans le modèle avec l'embarquement temporel sinusoïdal, les bords sont mieux définis et nous perdons moins d'informations.
 
 4. Inférence
-![image](https://github.com/user-attachments/assets/7da0e98a-a062-410e-a3df-19e024380b3f)
-![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)
+![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)![image](https://github.com/user-attachments/assets/7da0e98a-a062-410e-a3df-19e024380b3f)
+La première image est la sortie du moèle minimal et la deuxième la sortie du modèle sinusoidal. 
 
 
 Sortie du modèle minimal à chaque étape de temps
