@@ -20,3 +20,23 @@ avec model = train_model(model, y, X), le modèle a été entraîné sur 1000 ep
 ![image](https://github.com/user-attachments/assets/0d47aa00-a2f5-489b-b3d5-1db438a80966)
 
 3. La mse du double ReLU est faible ce qui signifie que le réseau de neurones parvient bien à approximer l'inverse de la fonction sinus. Les prédictions du modèles sont plutôt proches des vraies valeurs de arcsin(y). Cependant, pour améliorer ce score on peut encore augmenter le nombre de neurones par couche ou encore enrichir le jeu de données d'entraînement
+
+4. Key Discussion Points
+   
+What happens for values outside the range [-1,1]?
+Les fonctions sinusoidales étant comprises entre -1 et 1 si l'on sort de ces valeurs celles-ci n'auront jamais été vues lors de l'entraînement ce qui entraînera une perte de performance.
+
+What are the implications of approximating inverses in more complex functions?
+La prédiction sur des fonctions complexes est d'autant plus difficile puisque une fonction plus complexe peut présenter des discontinuités ce qui ne permet pas une bonne généralisation. Par ailleurs pour la fonction x^2 par exemple il y a plusieurs valeurs de x, le réseau de neurones doit alors s'adapter.
+
+## Part 2: Diffusion Model
+
+Un modèle de diffusion apprend à générer une ou des images en débruitant progressivement une entrée bruitée. Nous allons implémenter un modèle de diffusion simple pour comprendre le processus
+
+Choix du Dataset: MNIST 
+3. Le bruit gaussien est ajouté via la fonction apply_noise ci-dessous
+![image](https://github.com/user-attachments/assets/d44c26c1-2e60-4d16-a835-bbdc0010c361)
+Ce bruit est ajouté à l'image d'entrée pour la perturber, simulant ainsi le processus de dégradation de l'image au fur et à mesure des étapes de diffusion. Il suit une distribution normale ce qui rend les calculs plus simples.
+
+Deux modèle U-Net minimalistes SinusoidalUNet et SimpleUNet sont alors entraînés. Tandis que SimpleUNet utilise un simple embedding pour le temps, SinusoidalUNet utilise un embedding temporel, ce qui permet de mieux capturer la cyclicité du temps. 
+Une fois que l'on a ajouté du bruit à l'image et que le bruit a été prédit par le modèle, on peut calculer la mse. 
