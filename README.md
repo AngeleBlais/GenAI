@@ -8,31 +8,33 @@ Comme nous allons le voir, les transformers reposent sur un mécanisme de self-a
 
 ## Self-Attention  
 
-Dans une phrase, chaque mot est associé à un token et chaque token a un poids. Dans ce token, il y a trois vecteurs :  
-- **Query (Q)** : Détermine les éléments sur lesquels porter l’attention.  
-- **Key (K)** : Permet de calculer les scores d’attention.  
-- **Value (V)** : Contient les informations à transmettre.  
+Dans une phrase, chaque mot est associé à un token et chaque token a un poids. Dans ce token il y a trois vecteurs qui sont la Query qui détermine les éléments sur lesquels porter l’attention, la Key qui permet de calculer les scores d’attention ainsi que la Value v qui contient les informations à transmettre. La formule de la self attention est la suivante 
+![image](https://github.com/user-attachments/assets/041c3e59-da1c-496f-9292-eda47d7157b6)
+Cette formule permet de voir comment un token interagit avec d’autres tokens. Reprenons la phrase suivante: Les roses rouges sont mes préférées, avec roses le token en cours de traitement :
+- "roses" compare son vecteur Q avec les clés K de tous les autres mots 
+- obtient des scores de similarité avec rouges, sont par exemple 
+- après softmax, "roses" accorde plus d'importance à rouges son adjectif et plus à sont
+- valeurs V de rouges sont transférées à roses
+  
+L'attention est une technique qui permet à un réseau neuronal de se concentrer sur les parties les plus importantes des données d'entrée. Le self-attention va relier différentes positions d'une même séquence d'entrée pour calculer une représentation de la séquence et donc créer des connexions similaires. Après cette étape chaque mot possède une nouvelle représentation contextuelle, grâce à sa relation avec les autres mots de la phrase. Chaque token est traité en même temps, ce qui permet une meilleure parallélisation.
 
-La formule d’auto-attention est la suivante :
 
-> *L'attention est une technique qui permet à un réseau neuronal de se concentrer sur les parties les plus importantes des données d'entrée. Le self-attention va relier différentes positions d'une même séquence d'entrée pour calculer une représentation de la séquence et donc créer des connexions similaires. La self-attention permet une meilleure parallélisation.*
-
-Prenons la phrase suivante : **"Les roses rouges sont mes préférées"**.  
-- **"roses"** porte une attention forte à **"rouges"**, car c’est son adjectif qualificatif.  
-- **"préférées"** s’associe à **"roses rouges"** pour comprendre ce qui est préféré.  
-- **"sont"** établit la relation entre le sujet **"roses rouges"** et l’attribut **"préférées"**.  
-
-La self-attention permet donc à chaque mot d’interagir avec tous les autres pour pondérer leur importance. Après cette étape, chaque mot possède une **nouvelle représentation contextuelle**, enrichie par les autres mots de la phrase.
 
 ## Positional Encoding  
 
-Comme expliqué précédemment, dans un Transformer, les données sont traitées en **parallèle**. Pour comprendre l’ordre des mots dans une phrase, nous utilisons le **positional encoding**. Ce mécanisme s’applique aussi bien aux images qu’aux textes.
+Comme expliqué précédemment, dans un transformers, les données sont traitées en parallèle. Pour comprendre l’ordre des mots dans une phrase par exemple, nous allons alors utiliser le positional encoding. Lors du traitement des données le positional encoding permet d’appliquer une notion d’ordre aussi bien aux images qu’aux textes. 
+
+Chaque token est d'abord converti en un vecteur dense via une couche d’embeddings, seulement ces vecteurs ne contiennent pas leur position. On ajoute donc à chaque vecteur un positional encoding, qui encode la position du token grâce aux fonctions sinusoïdales et cosinus. Cela permet une périodicité contrôlée, le modèle peut ainsi distinguer les positions relatives des tokens. Contrairement à une simple translation dans l’espace vectoriel, le positional encoding est ajouté aux embeddings, ce qui préserve l’information sémantique tout en intégrant la notion d’ordre.
+
+Une mauvaise translation comme dans Word2Vec ne s’applique pas ici, le Positional Encoding n’altère en effet pas directement le sens des mots. Il modifie plutôt la manière dont le modèle apprend les relations de position. La notion de produit scalaire nul entre anciens et nouveaux vecteurs n’est pas un critère pertinent pour analyser la qualité d'un Positional Encoding. En effet, il ne cherche pas à projeter les tokens dans un espace orthogonal, mais plutôt à créer des relations positionnelles.
+
+Pour éviter un effondrement du modèle, il est essentiel de veiller à ce que le Positional Encoding ne crée pas de redondances ou d’ambiguïtés dans la représentation des tokens. Son rôle est de garantir que les positions restent distinguables, sans perturber l’information portée par les embeddings d’origine.
+
+Il en existe plusieurs types, tel que :
 
 ### Encodage positionnel absolu  
 
-Ce type d’encodage assigne à **chaque position** d’un mot dans une phrase un **vecteur unique**, indépendant des autres mots. Ce vecteur est généré en utilisant des **fonctions sinus et cosinus**, puis ajouté aux embeddings des mots avant de les passer dans le modèle.
-
-Contrairement aux encodages positionnels appris, l’encodage absolu **ne dépend pas du contexte**.
+Assigne à chaque position d’un mot dans une phrase un vecteur unique, indépendant des autres mots. Ce vecteur unique est généré en utilisant les fonctions sinus et cosinus. Chaque vecteur est ensuite ajouté aux embeddings des mots avant de les passer dans le transformeur. Contrairement aux encodages positionnels appris, l’encodage absolu ne dépend pas du contexte. 
 
 ## Feedforward  
 
@@ -43,23 +45,29 @@ La **self-attention** mélange les informations pour capturer les dépendances e
 
 Prenons notre exemple : **"Les roses rouges sont mes préférées"**.  
 Grâce à **feedforward**, voici les améliorations possibles :  
-- **"rouges"** est renforcé pour mieux indiquer qu'il qualifie **"roses"**.  
-- **"préférées"** intègre mieux la notion de préférence personnelle grâce à sa connexion avec **"mes"**.  
-- **"sont"** est ajusté pour mieux exprimer la relation sujet-attribut.  
+- **"rouges"** est renforcé pour mieux indiquer qu'il qualifie **"roses"** 
+- **"préférées"** intègre mieux la notion de préférence personnelle grâce à sa connexion avec **"mes"**  
+- **"sont"** est ajusté pour mieux exprimer la relation sujet-attribut
 
 ## BERT  
 
 **BERT** (*Bidirectional Encoder Representations from Transformers*) est un modèle NLP basé sur les Transformers. Il est conçu pour comprendre le **contexte des mots** en analysant le texte **dans les deux directions**.
 
-Son pré-entraînement repose sur deux tâches :  
-1. **Masked Language Modeling (MLM)** : Prédire un mot masqué dans une phrase.  
-2. **Next Sentence Prediction (NSP)** : Déterminer si une phrase suit logiquement une autre.  
+Son pré-entraînement repose sur deux tâches : Masked Language Modeling (MLM). La deuxième est la Next Sentence Prediction (NSP), qui détermine si une phrase suit logiquement une autre.
 
-BERT capture ainsi la **complexité des relations entre les mots** et est utilisé, par exemple, pour **l’analyse des sentiments**.
+BERT capture ainsi la complexité des relations entre les mots** et est utilisé, par exemple, pour l’analyse des sentiments.
 
-### Exemple de traitement avec BERT  
+### Suivons le traitement de la phrase ‘les roses rouges sont mes préférées’ par BERT
+La première étape est la tokenisation des mots en sous mots via un tokenizer Wordpiece. La tokenization permet de mieux gérer les variations linguistiques  
 
-Prenons la phrase : **"Les roses rouges sont mes préférées."**  
+Exemple : **"Les roses rouges sont mes préférées."**  
 1. **Tokenisation** avec le tokenizer **WordPiece** :  
    ```plaintext
-   ['les', 'roses', 'rouges', 'sont', 'mes', 'pré', 'férées', '.']
+   ['les', 'roses', 'rouges', 'sont', 'mes', 'pré', 'férées', '.']```
+préférée est découpé en "pré" et "férées" car il s'agit d'un mot complexe.
+
+BERT ajoute également des tokens spéciaux :
+•	[CLS] au début. Ce token a pour but de capturer l'ensemble du contexte de la phrase. Après passage dans BERT, le vecteur associé à CLS contient une représentation globale de la séquence.
+•	[SEP] à la fin. SEP permet de séparer en deux phrases si nécessaire
+
+
