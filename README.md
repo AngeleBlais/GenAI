@@ -28,6 +28,7 @@ La convolution et l'attention servent à extraire des informations contextuelles
 Comme expliqué précédemment, dans un transformers, les données sont traitées en parallèle. Pour comprendre l’ordre des mots dans une phrase par exemple, nous allons alors utiliser le positional encoding. Lors du traitement des données le positional encoding permet d’appliquer une notion d’ordre aussi bien aux images qu’aux textes. 
 
 Chaque token est d'abord converti en un vecteur dense via une couche d’embeddings, seulement ces vecteurs ne contiennent pas leur position. On ajoute donc à chaque vecteur un positional encoding, qui encode la position du token grâce aux fonctions sinusoïdales et cosinus. Cela permet une périodicité contrôlée, le modèle peut ainsi distinguer les positions relatives des tokens. Contrairement à une simple translation dans l’espace vectoriel, le positional encoding est ajouté aux embeddings, ce qui préserve l’information sémantique tout en intégrant la notion d’ordre.
+
 ![image](https://github.com/user-attachments/assets/f8f685f6-0964-441f-85c8-048b1e2109ba)
 
 
@@ -67,7 +68,7 @@ Grâce à **feedforward**, voici les améliorations possibles :
 BERT est un modèle de NLP basé sur les Transformers. Il est conçu pour comprendre le contexte des mots en analysant le texte dans les deux directions (avant et après un mot donné). Son pré-entraînement repose sur deux tâches : Masked Language Modeling (MLM). La deuxième est la Next Sentence Prediction (NSP), qui détermine si une phrase suit logiquement une autre. BERT capture ainsi la complexité des relations entre les mots et est utilisé par exemple pour l’analyse des sentiments. Suivons le traitement de la phrase ‘les roses rouges sont mes préférées’ par BERT:
 
 La première étape est la tokenisation des mots en sous mots via un tokenizer Wordpiece. La tokenization permet de mieux gérer les variations linguistiques 
-1. Exemple  ```plaintext
+1. Exemple  ```
    ['les', 'roses', 'rouges', 'sont', 'mes', 'pré', 'férées', '.']```
 préférée est découpé en "pré" et "férées" car il s'agit d'un mot complexe.
 
@@ -75,7 +76,7 @@ BERT ajoute également des tokens spéciaux :
 •	[CLS] au début. Ce token a pour but de capturer l'ensemble du contexte de la phrase. Après passage dans BERT, le vecteur associé à CLS contient une représentation globale de la séquence.
 •	[SEP] à la fin. SEP permet de séparer en deux phrases si nécessaire
 
-Notre phrase devient donc : ```plaintext
+Notre phrase devient donc : ```
   ['[CLS]', 'les', 'roses', 'rouges', 'sont', 'mes', 'pré', '##férées', '.', '[SEP]']```
 
 BERT lit la phrase dans les deux directions en même temps
