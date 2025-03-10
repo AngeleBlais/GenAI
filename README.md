@@ -34,9 +34,24 @@ La prédiction sur des fonctions complexes est d'autant plus difficile puisque u
 Un modèle de diffusion apprend à générer une ou des images en débruitant progressivement une entrée bruitée. Nous allons implémenter un modèle de diffusion simple pour comprendre le processus
 
 Choix du Dataset: MNIST 
+
 3. Le bruit gaussien est ajouté via la fonction apply_noise ci-dessous
 ![image](https://github.com/user-attachments/assets/d44c26c1-2e60-4d16-a835-bbdc0010c361)
 Ce bruit est ajouté à l'image d'entrée pour la perturber, simulant ainsi le processus de dégradation de l'image au fur et à mesure des étapes de diffusion. Il suit une distribution normale ce qui rend les calculs plus simples.
 
 Deux modèle U-Net minimalistes SinusoidalUNet et SimpleUNet sont alors entraînés. Tandis que SimpleUNet utilise un simple embedding pour le temps, SinusoidalUNet utilise un embedding temporel, ce qui permet de mieux capturer la cyclicité du temps. 
 Une fois que l'on a ajouté du bruit à l'image et que le bruit a été prédit par le modèle, on peut calculer la mse. 
+
+Résultats de débruitage
+Sortie du modèle minimal à chaque étape de temps (texte alternatif)
+
+Sortie du modèle avec l'embarquement temporel sinusoïdal à chaque étape de temps (texte alternatif)
+
+On peut noter que la perte est plus faible dans le modèle avec l'embarquement temporel sinusoïdal, les bords sont mieux définis et nous perdons moins d'informations.
+
+4. Inférence
+![image](https://github.com/user-attachments/assets/7da0e98a-a062-410e-a3df-19e024380b3f)
+![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)
+
+
+Sortie du modèle minimal à chaque étape de temps
