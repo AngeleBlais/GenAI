@@ -86,7 +86,7 @@ BERT lit la phrase dans les deux directions en même temps
   
 Il se distingue par l'attention bidirectionnelle contrairement à d'autres modèles plus traditionnels comme le RNN.
 
-##ViT
+## ViT
 
 Contrairement à BERT, qui traite des tokens de texte, ViT traite des patchs d'image comme des tokens et les analyse avec des mécanismes de self-attention. Le ViT est appliqué à la computer vision plutôt qu'au texte
 On a désormais une image contenant la phrase écrite "Les roses rouges sont mes préférées" 
