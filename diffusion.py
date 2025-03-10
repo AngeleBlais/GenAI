@@ -148,8 +148,8 @@ def main():
     final_loss = train_model(net, train_loader, num_epochs=args.epochs, device=device, alpha_cum=alpha_cum_device)
     
     net.eval()
-    generated_img = denoise_image(net, device, alpha_cum_device, NB_STEPS, shape=(1, 1, 28, 28))
-    
+    generated_img = denoise_image(net, device, alpha_cum_device, NB_STEPS, img_shape=(1, 1, 28, 28))
+
     plt.figure(figsize=(4, 4))
     plt.imshow(generated_img.cpu().squeeze().detach().numpy(), cmap='gray')
     plt.title("Generated Sample")
