@@ -73,14 +73,16 @@ L'ajout du bruit ou sa suppression seront pertubés si l'on change le noise sche
 How do diffusion models compare to GANs? 
 Ces deux modèles génèrent des images. Cependant, les GANs apprennent avec à la fois un générateur et un discriminateur, ce qui permet de produire des images réalistes plus rapidement que les diffusion models. Les modèles de diffusion ajoutent du bruit progressif et apprennent à l’inverser comme nous l'avons vu dans ce tp, ce qui prend plus de temps mais donne souvent des résultats plus nets. Les modèles de diffusion sont plus fiables pour capturer la diversité des données, tandis que les GANs sont plus rapides.
 
-##Final Reflection
+## Final Reflection
 
 How does function inversion relate to diffusion models? 
-Nous avons vu qu'un modèle de diffusion apprend à transformer une image complexe en une image bruitée, avec le bruit gaussien. Les diffusion models apprenent également à inverser ce processus via la fonction d'inversion. Cette inversion est similaire à la recherche de l’inverse d’une fonction mathématique où, donné un y, on trouve x tel que 𝑓(𝑥)=𝑦 Les modèles de diffusion apprennent à estimer cette fonction inverse en corrigeant progressivement le bruit.
+Nous avons vu qu'un modèle de diffusion apprend à transformer une image complexe en une image bruitée, avec le bruit gaussien. Les diffusion models apprenent également à inverser ce processus via la fonction d'inversion. Les modèles de diffusion apprennent ensuite à estimer cette fonction inverse en corrigeant progressivement le bruit.
 
 How does iterative noise removal help generate realistic images? 
+L'élimination progressive du bruit aide à générer des images réalistes car à chaque étape, le modèle estime le bruit présent et le retire progressivement. Cela ramène l'image vers une version plus nette et réaliste, en conservant les détails
 
 Potential applications of diffusion models (e.g., text-to-image generation like Stable 
-Diffusion).
+Diffusion)
+Stable Diffusion est un modèle qui transforme du texte en image. On lui donne une description écrite, et il crée une image qui correspond. Ce modèle apprend en observant des millions d'images et leurs descriptions. Il peut générer des paysages, des personnages ou encore des objets. Il est très utilisé pour la création de contenu de jeu vidéos par exemple.
 
 
