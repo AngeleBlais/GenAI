@@ -48,14 +48,15 @@ Une fois que l'on a ajouté du bruit à l'image et que le bruit a été prédit 
 
 4. Inférence
    
-![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)
+![image](https://github.com/user-attachments/assets/5f36d91e-93f0-4332-9310-80145e607459)
 
 Cette image est la sortie du modèle minimal bien que les deux images soient très floues on voit que l'inférence du modèle minimal n'est pas très bonne puisque l'image est très floue.
 
 5. Training
-   
-![image](https://github.com/user-attachments/assets/4dfbf432-1665-4e57-8eee-0eb858cdd3d2)
-Là encore, la sortie du modèle minimal n'est pas très bonne puisque les images ne sont pas très nettes.
+
+![image](https://github.com/user-attachments/assets/6d62f2ec-b2cd-417a-b5db-4e8341dccd93)
+
+Là encore, la sortie du modèle minimal montre une diminution rapide de la loss au début suivie d'une stabilisation à une valeur proche de 0.067. Cela montre que le modèle apprend rapidement à estimer le bruit ajouté aux images. 
 
 6. Discussion
    
