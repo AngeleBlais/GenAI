@@ -43,27 +43,19 @@ Choix du Dataset: MNIST
 ![image](https://github.com/user-attachments/assets/d44c26c1-2e60-4d16-a835-bbdc0010c361)
 
 Ce bruit est ajouté à l'image d'entrée pour la perturber, simulant ainsi le processus de dégradation de l'image au fur et à mesure des étapes de diffusion. Il suit une distribution normale ce qui rend les calculs plus simples.
-
-Deux modèle U-Net minimalistes SinusoidalUNet et SimpleUNet sont alors entraînés. Tandis que SimpleUNet utilise un simple embedding pour le temps, SinusoidalUNet utilise un embedding temporel, ce qui permet de mieux capturer la cyclicité du temps. 
-Une fois que l'on a ajouté du bruit à l'image et que le bruit a été prédit par le modèle, on peut calculer la mse. 
-
-Résultats de débruitage
-Sortie du modèle minimal à chaque étape de temps (texte alternatif)
-
-Sortie du modèle avec l'embarquement temporel sinusoïdal à chaque étape de temps (texte alternatif)
-
-On peut noter que la perte est plus faible dans le modèle avec l'embarquement temporel sinusoïdal, les bords sont mieux définis et nous perdons moins d'informations.
+Un modèle U-Net minimaliste SimpleUNet est alors entraîné. SimpleUNet utilise un simple embedding pour le temps, ce qui permet de capturer la cyclicité du temps. 
+Une fois que l'on a ajouté du bruit à l'image et que le bruit a été prédit pour le modèle, on peut calculer la mse. 
 
 4. Inférence
    
-![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)![image](https://github.com/user-attachments/assets/7da0e98a-a062-410e-a3df-19e024380b3f)
+![image](https://github.com/user-attachments/assets/cfcd8079-a629-4891-a676-a0ab39e52564)
 
-La première image est la sortie du modèle minimal et la deuxième la sortie du modèle sinusoidal, bien que les deux images soient très floues on voit que l'inférence du modèle minimal est meilleure que celle du sinusoidal.
+Cette image est la sortie du modèle minimal bien que les deux images soient très floues on voit que l'inférence du modèle minimal n'est pas très bonne puisque l'image est très floue.
 
 5. Training
    
-![image](https://github.com/user-attachments/assets/4dfbf432-1665-4e57-8eee-0eb858cdd3d2)![image](https://github.com/user-attachments/assets/59db3187-ffce-4717-b4b0-5cec0767b519)
-Là encore, la première image est la sortie du modèle minimal et la deuxième la sortie du modèle sinusoidal. On remarque également une netteté plus importante à la sortie du modèle sinusoidale.
+![image](https://github.com/user-attachments/assets/4dfbf432-1665-4e57-8eee-0eb858cdd3d2)
+Là encore, la sortie du modèle minimal n'est pas très bonne puisque les images ne sont pas très nettes.
 
 6. Discussion
    
