@@ -94,7 +94,7 @@ def main():
     parser.add_argument("--batch_size", type=int, default=128, help="Batch size")
     parser.add_argument("--model_type", type=str, default="minimal", choices=["minimal", "sinus"],
                         help="Choose between 'minimal' or 'sinus'")
-    parser.add_argument("--embed_size", type=int, default=128, help="Embedding size for sinusoidal model")
+    parser.add_argument("--embed_size", type=int, default=128)
     args = parser.parse_args()
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -107,8 +107,22 @@ def main():
 
     alpha_cum_device = ALPHA_CUMULATIVE.to(device)
     
-    final_loss = train_model(net, train_loader, num_epochs=args.epochs, device=device, alpha_cum=alpha_cum_device)
-    
+    # Training
+    loss_values = []
+    for epoch in range(args.epochs):
+        loss = train_model(net, train_loader, num_epochs=1, device=device, alpha_cum=alpha_cum_device)
+        loss_values.append(loss)
+
+    # Save loss plot
+    plt.figure(figsize=(6, 4))
+    plt.plot(range(1, args.epochs + 1), loss_values, marker='o', linestyle='-')
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.title("Training Loss")
+    plt.savefig("training_loss_plot.png")  # Save loss plot
+    plt.close()  # Close the figure to avoid overlap
+
+    # Image generation and saving
     net.eval()
     generated_img = denoise_image(net, device, alpha_cum_device, NB_STEPS, img_shape=(1, 1, 28, 28))
 
@@ -116,7 +130,8 @@ def main():
     plt.imshow(generated_img.cpu().squeeze().detach().numpy(), cmap='gray')
     plt.title("Generated Sample")
     plt.axis('off')
-    plt.show()
+    plt.savefig("generated_sample.png")  # Save generated image
+    plt.close()  # Close the figure
 
 if __name__ == '__main__':
     main()
