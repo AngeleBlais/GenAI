@@ -13,15 +13,6 @@ NOISE_LEVELS = torch.linspace(0.05, 0.1, NB_STEPS)
 ALPHA_VALUES = 1 - NOISE_LEVELS
 ALPHA_CUMULATIVE = torch.cumprod(ALPHA_VALUES, 0)
 
-# Sinusoidal time embedding function
-def time_embedding_sinusoidal(time_idx, dim_size):
-    half_dim = dim_size // 2
-    scale_factor = math.log(10000) / (half_dim - 1)
-    emb = torch.exp(torch.arange(half_dim, dtype=torch.float, device=time_idx.device) * -scale_factor)
-    emb = time_idx.float().unsqueeze(1) * emb.unsqueeze(0)
-    emb = torch.cat([torch.sin(emb), torch.cos(emb)], dim=1)
-    return torch.cat([emb, torch.zeros(time_idx.size(0), 1, device=time_idx.device)], dim=1) if dim_size % 2 == 1 else emb
-
 # Noise addition function
 def apply_noise(data, step_idx, alpha_cum):
     alpha_factor = alpha_cum[step_idx].view(-1, 1, 1, 1)
@@ -37,33 +28,6 @@ def fetch_mnist_data(batch=128):
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch, shuffle=False)
     return train_loader, test_loader
 
-# Sinusoidal Time-Embedded UNet
-class SinusoidalUNet(nn.Module):
-    def __init__(self, time_steps, embed_dim=128):
-        super().__init__()
-        self.time_embed = nn.Sequential(
-            nn.Linear(embed_dim, embed_dim),
-            nn.ReLU(),
-            nn.Linear(embed_dim, 28*28)
-        )
-        self.conv1 = nn.Sequential(nn.Conv2d(1, 16, 3, padding=1), nn.ReLU())
-        self.downsample = nn.MaxPool2d(2)
-        self.conv2 = nn.Sequential(nn.Conv2d(16, 32, 3, padding=1), nn.ReLU())
-        self.upsample = nn.Upsample(scale_factor=2, mode='nearest')
-        self.conv3 = nn.Sequential(nn.Conv2d(48, 16, 3, padding=1), nn.ReLU())
-        self.output_layer = nn.Conv2d(16, 1, 1)
-        self.embedding_dim = embed_dim
-
-    def forward(self, data, step):
-        time_emb = time_embedding_sinusoidal(step, self.embedding_dim).to(data.device)
-        time_emb = self.time_embed(time_emb).view(-1, 1, 28, 28)
-        conditioned_input = data + time_emb  
-        c1 = self.conv1(conditioned_input)
-        p1 = self.downsample(c1)
-        c2 = self.conv2(p1)
-        up = self.upsample(c2)
-        x = self.conv3(torch.cat([up, c1], 1))
-        return self.output_layer(x)
 
 # Minimal UNet Model
 class SimpleUNet(nn.Module):
@@ -140,8 +104,6 @@ def main():
     
     if args.model_type == "minimal":
         net = SimpleUNet(NB_STEPS).to(device)
-    else:
-        net = SinusoidalUNet(NB_STEPS, embed_dim=args.embed_size).to(device)
 
     alpha_cum_device = ALPHA_CUMULATIVE.to(device)
     
