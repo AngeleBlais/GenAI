@@ -9,8 +9,7 @@ De ce fait X suit une distribution uniforme comprise entre -1 et 1 et y= sin(x)
 2. Train a Neural Network
    
 Une architecture double RELU a été testée pour évaluer la capacité du modèle à apprendre l'inversion
-
-![image](https://github.com/user-attachments/assets/0d47aa00-a2f5-489b-b3d5-1db438a80966)
+![image](https://github.com/user-attachments/assets/e32bc0f8-7716-4902-8528-86c5f031bd07)
 
 Voici le résultat du modèle avec deux couches cachées ReLU (Double ReLU) avec 2 couches cachées de 3 neurones chacune avec activation ReLU avec une mse= 0.0023
 avec model = train_model(model, y, X), le modèle a été entraîné sur 1000 epochs avec un early stopping
