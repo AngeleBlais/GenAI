@@ -15,7 +15,6 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 
-
 def create_data(samples=1000):
     """Generate input data and corresponding sine values."""
     np.random.seed(0)
