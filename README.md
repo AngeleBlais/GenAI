@@ -86,6 +86,12 @@ BERT lit la phrase dans les deux directions en même temps
   
 Il se distingue par l'attention bidirectionnelle contrairement à d'autres modèles plus traditionnels comme le RNN.
 
+## Résultats BERT
+
+![image](https://github.com/user-attachments/assets/73ddca3e-ba4a-4eb1-9cab-4fcdfc010e6f)
+
+On remarque sur les deux graphes que le modèle bert.py apprend bien au début, mais après 2 epochs, la précision de validation chute indiquant du sur-ajustement.
+
 ## ViT
 
 Contrairement à BERT, qui traite des tokens de texte, ViT traite des patchs d'image comme des tokens et les analyse avec des mécanismes de self-attention. Le ViT est appliqué à la computer vision plutôt qu'au texte
@@ -94,6 +100,11 @@ Celle-ci est divisée en plusieurs petits morceaux appelés patches (ex: 16×16 
 
 Self-attention : 
 Dans un contexte orthonormé, ViT se différencie des CNN par l’utilisation du produit scalaire dans le mécanisme d’attention. Si les données sont déjà orthonormées, l’utilisation de self-attention sera tout de même préférée.
+
+## Résultats ViT
+
+![image](https://github.com/user-attachments/assets/a96e0ccc-7824-4625-a1de-f06c2a25785e)
+Les valeurs sur la diagonale sont très proches de 1000 soit la taille de chaque classe dans CIFAR-10, ce qui signifie que le modèle classe correctement la plupart des images. La performance est excellente avec un taux d'exactitude très élevé (environ 98%). On remarque que le modèle est particulièrement fiable pour les classes distinctes comme Avion, Bateau, ou Grenouille
 
 ## Part 4
  ### 1.	What are the differences in how Transformers process text versus images?
